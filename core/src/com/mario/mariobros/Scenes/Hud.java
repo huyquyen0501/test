@@ -39,14 +39,12 @@ public class Hud implements Disposable{
         score = 0;
 
 
-        //setup the HUD viewport using a new camera seperate from our gamecam
-        //define our stage using that viewport and our games spritebatch
+        //setup the HUD viewport using a new camera seperate from  gamecam
         viewport = new FitViewport(MarioBros.V_WIDTH, MarioBros.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
-        //define a table used to organize our hud's labels
+        // tao moi table
         Table table = new Table();
-        //Top-Align table
         table.top();
         //make the table fill the entire stage
         table.setFillParent(true);
@@ -59,17 +57,17 @@ public class Hud implements Disposable{
         worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         marioLabel = new Label("MARIO", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        //add our labels to our table, padding the top, and giving them all equal width with expandX
+        //add  labels to  table, padding the top,
         table.add(marioLabel).expandX().padTop(10);
         table.add(worldLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
-        //add a second row to our table
+        //add a second row to  table
         table.row();
         table.add(scoreLabel).expandX();
         table.add(levelLabel).expandX();
         table.add(countdownLabel).expandX();
 
-        //add our table to the stage
+        //add  table to the stage
         stage.addActor(table);
 
     }

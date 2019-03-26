@@ -62,21 +62,21 @@ public class PlayScreen implements Screen{
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
 
         this.game = game;
-        //create cam used to follow mario through cam world
+        //gamecam di theo thang mario
         gamecam = new OrthographicCamera();
 
-        //create a FitViewport to maintain virtual aspect ratio despite screen size
+        //su dung fitviewport va scale lai mario
         gamePort = new FitViewport(MarioBros.V_WIDTH / MarioBros.PPM, MarioBros.V_HEIGHT / MarioBros.PPM, gamecam);
 
-        //create our game HUD for scores/timers/level info
+        //create  game HUD for scores/timers/level info
         hud = new Hud(game.batch);
 
-        //Load our map and setup our map renderer
+        //load va render map
         maploader = new TmxMapLoader();
         map = maploader.load("level1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1  / MarioBros.PPM);
 
-        //initially set our gamcam to be centered correctly at the start of of map
+        //set game cam luc bat dau
         gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
         //create  Box2D world, setting no gravity in X, -10 gravity in Y, and allow bodies to sleep
@@ -86,7 +86,7 @@ public class PlayScreen implements Screen{
 
         creator = new com.mario.game.Tools.B2WorldCreator(this);
 
-        //create mario in our game world
+        //tao mario
         player = new Mario(this);
 
         world.setContactListener(new WorldContactListener());
@@ -126,7 +126,7 @@ public class PlayScreen implements Screen{
     }
 
     public void handleInput(float dt){
-        //control our player using immediate impulses
+        //di chuyen bang ban phim lap(can tim cach tao di chuyen bang phim bam o dt)
         if(player.currentState != Mario.State.DEAD) {
             if (Gdx.input.isKeyPressed(Input.Keys.UP))
                 player.jump();
@@ -141,7 +141,7 @@ public class PlayScreen implements Screen{
     }
 
     public void update(float dt){
-        //handle user input first
+        //xu li input
         handleInput(dt);
         handleSpawningItems();
 
@@ -161,14 +161,11 @@ public class PlayScreen implements Screen{
 
         hud.update(dt);
 
-        //attach our gamecam to our players.x coordinate
+
         if(player.currentState != Mario.State.DEAD) {
             gamecam.position.x = player.b2body.getPosition().x;
         }
-
-        //update our gamecam with correct coordinates after changes
         gamecam.update();
-        //tell our renderer to draw only what our camera can see in our game world.
         renderer.setView(gamecam);
 
     }
@@ -176,14 +173,14 @@ public class PlayScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        //separate our update logic from render
+        //tach update logic ra render
         update(delta);
 
         //Clear the game screen with Black
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //render our game map
+        //render  game map
         renderer.render();
 
         //renderer our Box2DDebugLines
